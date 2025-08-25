@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zxx" class="js">
+
 <head>
     <meta charset="utf-8">
     <meta name="author" content="VenPep">
@@ -15,8 +16,14 @@
     <link id="skin-default" rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom.css">
 </head>
 
+<style>
+.logo-img-lg{
+    max-height: 200px;
+}
+</style>
+
 <body class="nk-body bg-white npc-general pg-auth">
-<div class="preloader" style="display: none;"></div>
+    <div class="preloader" style="display: none;"></div>
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
@@ -27,8 +34,8 @@
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
                             <a href="html/index.html" class="logo-link">
-                                <img class="logo-light logo-img logo-img-lg" src="<?php echo base_url(); ?>assets/images/todook.jpg" alt="logo">
-                                <img class="logo-dark logo-img logo-img-lg" src="<?php echo base_url(); ?>assets/images/todook.jpg" alt="logo-dark">
+                                <img class="logo-light logo-img logo-img-lg" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo-dark">
                             </a>
                         </div>
                         <div class="card card-bordered">
@@ -36,7 +43,7 @@
                                 <div class="nk-block-head">
                                     <div class="nk-block-head-content">
                                         <h4 class="nk-block-title">Sign-In</h4>
-                                       
+
                                     </div>
                                 </div>
                                 <form id="loginForm">

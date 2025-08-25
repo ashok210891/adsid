@@ -40,8 +40,8 @@ foreach($css_files as $file): ?>
                         </div>
                             <div class="nk-header-brand">
                                 <a href="<?php echo base_url(); ?>" class="logo-link">
-                                    <img class="logo-light logo-img" src="<?php echo base_url(); ?>assets/images/todook.jpg" alt="logo">
-                                    <img class="logo-dark logo-img" src="<?php echo base_url(); ?>assets/images/todook.jpg" alt="logo-dark">
+                                    <img class="logo-light logo-img" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo">
+                                    <img class="logo-dark logo-img" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo-dark">
 
                                 </a>
                             </div><!-- .nk-header-brand -->
@@ -49,8 +49,8 @@ foreach($css_files as $file): ?>
                             <div class="nk-header-mobile">
                                 <div class="nk-header-brand">
                                     <a href="<?php echo base_url(); ?>" class="logo-link">
-                                        <img class="logo-light logo-img" src="<?php echo base_url(); ?>assets/images/todook.jpg" alt="logo">
-                                        <img class="logo-dark logo-img" src="<?php echo base_url(); ?>assets/images/todook.jpg" alt="logo-dark">
+                                        <img class="logo-light logo-img" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo">
+                                        <img class="logo-dark logo-img" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo-dark">
                                     </a>
                                 </div>
                                 <div class="nk-menu-trigger mr-n2">
