@@ -21,7 +21,6 @@
     max-height: 200px;
 }
 </style>
-
 <body class="nk-body bg-white npc-general pg-auth">
     <div class="preloader" style="display: none;"></div>
     <div class="nk-app-root">
