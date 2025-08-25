@@ -9,10 +9,10 @@
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/favicon.png">
     <!-- Page Title  -->
-    <title>ToDook Dashboard</title>
+    <title>Aerospace & Defence Supplier Identification Dashboard</title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/dashlite.css?ver=1.6.0">
-    <link id="skin-default" rel="stylesheet" href="<?php echo base_url(); ?>assets/css/theme.css?ver=1.6.0">
+    <link id="skin-default" rel="stylesheet" href="<?php echo base_url(); ?>assets/css/skins/theme-egyptian.css?ver=1.6.0">
     <link id="skin-default" rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom.css">
 
     <?php
