@@ -18,7 +18,7 @@
 
 <style>
 .logo-img-lg{
-    max-height: 200px;
+    max-height: 150px;
 }
 </style>
 <body class="nk-body bg-white npc-general pg-auth">
