@@ -87,7 +87,6 @@ class Web extends CI_Controller
         $this->load->view('reports', $data);
         $this->load->view('footer');
     }
-
     public function userWidget()
     {
         $data['totaluser'] = $this->webmodel->getTotalUser(0);
