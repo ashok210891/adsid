@@ -52,7 +52,6 @@ class Webmodel extends CI_Model
                 }
             }
         }
-
         $resArr["rowCount"] = $res->num_rows();
         $resArr["status"] = $status;
         return $resArr;
