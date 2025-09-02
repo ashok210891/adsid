@@ -53,19 +53,6 @@
                                         <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Enter your email address or username" required>
                                     </div>
                                     <div class="form-group">
-                                        <div class="form-label-group">
-                                            <label class="form-label" for="password">Passcode</label>
-                                            <a class="link link-primary link-sm" href="<?php echo base_url(); ?>login/forgetpassword">Forgot Code?</a>
-                                        </div>
-                                        <div class="form-control-wrap">
-                                            <a href="#" class="form-icon form-icon-right passcode-switch" data-target="password">
-                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
-                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                                            </a>
-                                            <input type="password" name="password" class="form-control form-control-lg" id="password" placeholder="Enter your passcode" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <button class="btn btn-lg btn-primary btn-block">Sign in</button>
                                     </div>
                                 </form>
