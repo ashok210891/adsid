@@ -3,7 +3,7 @@
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2020 ToDook. </div>
+                            <div class="nk-footer-copyright"> &copy; <?php echo date("Y"); ?> <?php echo PROJECT_NAME; ?>. </div>
                             <div class="nk-footer-links">
                                 <ul class="nav nav-sm">
                                     <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>

@@ -30,9 +30,9 @@ class Web extends CI_Controller
 
     public function dashboard()
     {
-        $userId = $this->session->userdata('userid');
+        $data['companies'] = $this->webmodel->getCompanies();
         $data['title'] = 'Dashboard';
-        $this->load->view('header');
+        $this->load->view('header', $data);
         $this->load->view('dashboard');
         $this->load->view('footer');
     }

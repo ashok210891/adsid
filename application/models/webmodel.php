@@ -4,42 +4,51 @@
 class Webmodel extends CI_Model
 {
     /**
-    * Index Page for this controller.
-    *
-    * Maps to the following URL
-    * 		http://example.com/index.php/welcome
-    *	- or -
-    * 		http://example.com/index.php/welcome/index
-    *	- or -
-    * Since this controller is set as the default controller in
-    * config/routes.php, it's displayed at http://example.com/
-    *
-    * So any other public methods not prefixed with an underscore will
-    * map to /index.php/welcome/<method_name>
-    * @see http://codeigniter.com/user_guide/general/urls.html
-    */
+     * Index Page for this controller.
+     *
+     * Maps to the following URL
+     * 		http://example.com/index.php/welcome
+     *	- or -
+     * 		http://example.com/index.php/welcome/index
+     *	- or -
+     * Since this controller is set as the default controller in
+     * config/routes.php, it's displayed at http://example.com/
+     *
+     * So any other public methods not prefixed with an underscore will
+     * map to /index.php/welcome/<method_name>
+     * @see http://codeigniter.com/user_guide/general/urls.html
+     */
 
 
-    public function checkLogin($userName, $password)
+    public function checkLogin($userName)
     {
-        $sql = "SELECT * FROM users WHERE username = '".$userName."' AND password = '".md5($password)."'";
+        $sql = "SELECT * FROM users WHERE email = '" . $userName . "'";
         $res = $this->db->query($sql);
 
+        $otpnumber = random_int(100000, 999999);
         $status = '';
         if ($res->num_rows() > 0) {
             foreach ($res->result() as $row) {
                 $status = $row->status;
 
                 if ($status == "active") {
-                    $userData = array(
-                    'userid' => $row->user_id,
-                    'username' => $row->username,
-                    'botname' => $row->bot_name,
-                    'status' => $row->status,
-                    'usertype' => 'user',
-                    'loggedin'=> true
-                );
-                    $this->session->set_userdata($userData);
+
+                    $updatarr = array(
+                        'user_last_activity' => date('Y-m-d h:i:s'),
+                        'otp' => $otpnumber,
+                    );
+                    $wherearr = array(
+                        'id' => $row->id,
+                    );
+                    $this->db->update('users', $updatarr, $wherearr);
+
+                    $useremailsubject = "ADSID - OTP";
+                    $useremailheading = "ADSID - Your login OTP details to access our website";
+                    $useremailmessage = 'Your login OTP is: ' . $otpnumber . '<br>
+                        <br><br><br>
+                        -ADSID Team';
+
+                    $this->sendemailtouserModel($row->email, $useremailsubject, $useremailheading, $useremailmessage);
                 }
             }
         }
@@ -49,6 +58,57 @@ class Webmodel extends CI_Model
         return $resArr;
     }
 
+    public function sendemailtouserModel($email, $useremailsubject, $useremailheading, $useremailmessage, $tempview = "")
+    {
+        $from = $this->config->item('admin_email_id');
+        $fromname = $this->config->item('admin_name');
+        $messagearr = array();
+        $messagearr["subject"] = $useremailsubject;
+        $messagearr["heading"] = $useremailheading;
+        $messagearr["message"] = $useremailmessage;
+        $messagearr["email"] = $email;
+        $msg = $this->load->view('email/useremail', $messagearr, true);
+        $this->smtpemail->send($from, $fromname, $email, $useremailsubject, $msg);
+        //echo $this->email->print_debugger();
+    }
+
+    public function checkotpmodel($email, $otp)
+    {
+        $sql = "SELECT * FROM users WHERE email = ? and otp = ?";
+        $tempresult = $this->db->query($sql, [$email, $otp]);
+        $user = $tempresult->result();
+        $userCount = count($user);
+        $user = isset($user[0]) ? $user[0] : array();
+
+        if ($userCount > 0) {
+            $status = $user->status;
+
+            if ($status == "active") {
+
+                $userData = array(
+                    'userid' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'status' => $user->status,
+                    'usertype' => 'user',
+                    'loggedin' => true
+                );
+                $this->session->set_userdata($userData);
+                return TRUE;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function getCompanies()
+    {
+        $sql = "SELECT * from companies where 1 = 1 ";
+        $result = $this->db->query($sql);
+        $res = $result->result();
+        return $res;
+    }
+
     public function getColumns($tablename)
     {
         $unwanted_fields = ["uu_id", "country_code"];
@@ -56,7 +116,7 @@ class Webmodel extends CI_Model
         $res = [];
         foreach ($columns as $col) {
             if (!in_array($col, $unwanted_fields, true)) {
-              array_push($res, $col);
+                array_push($res, $col);
             }
         }
         return $res;
@@ -69,7 +129,7 @@ class Webmodel extends CI_Model
         $res = [];
         foreach ($columns as $col) {
             if (!in_array($col, $unwanted_fields, true)) {
-              array_push($res, $col);
+                array_push($res, $col);
             }
         }
         return $res;
@@ -87,7 +147,7 @@ class Webmodel extends CI_Model
 
     public function updatePassword($userId, $password)
     {
-        $sql = "UPDATE users SET password = md5('".$password."')
+        $sql = "UPDATE users SET password = md5('" . $password . "')
 			WHERE userid = $userId";
         $this->db->query($sql);
     }
@@ -98,10 +158,10 @@ class Webmodel extends CI_Model
         $botname = $this->session->userdata('botname');
         $whr = "";
         if ($days && $days !== null && $days !== 0) {
-            $whr = " where (timestamp > DATE_SUB(now(), INTERVAL ".$days." DAY))";
+            $whr = " where (timestamp > DATE_SUB(now(), INTERVAL " . $days . " DAY))";
         }
 
-        $sql = "SELECT COUNT(DISTINCT(mobilenumber)) as totaluser FROM {$botname} ". $whr;
+        $sql = "SELECT COUNT(DISTINCT(mobilenumber)) as totaluser FROM {$botname} " . $whr;
         $result = $this->db->query($sql);
         $res = $result->result();
         if (count($res) > 0) {
@@ -113,20 +173,20 @@ class Webmodel extends CI_Model
 
     public function getLatestEnquiry()
     {
-      $botname = $this->session->userdata('botname');
-      $sql = "SELECT id, timestamp, mobilenumber, country_code, name
+        $botname = $this->session->userdata('botname');
+        $sql = "SELECT id, timestamp, mobilenumber, country_code, name
       FROM {$botname} where nodeid = 'node1' or nodeid = 'mainmenu' order by timestamp desc limit 10";
-      $result = $this->db->query($sql);
-      return $result->result();
+        $result = $this->db->query($sql);
+        return $result->result();
     }
 
     public function getLatestUsers()
     {
-      $botname = $this->session->userdata('botname');
-      $sql = "SELECT id, timestamp, mobilenumber, country_code, name
+        $botname = $this->session->userdata('botname');
+        $sql = "SELECT id, timestamp, mobilenumber, country_code, name
       FROM {$botname} group by mobilenumber order by timestamp desc limit 10";
-      $result = $this->db->query($sql);
-      return $result->result();
+        $result = $this->db->query($sql);
+        return $result->result();
     }
 
     public function getcurrentmonthusers()
@@ -138,12 +198,12 @@ class Webmodel extends CI_Model
     }
 
 
-    public function getTotalEnquiry($days, $iscount=true)
+    public function getTotalEnquiry($days, $iscount = true)
     {
         $botname = $this->session->userdata('botname');
         $whr = " where nodeid = 'node1' or nodeid = 'mainmenu'";
         if ($days && $days !== null && $days !== 0) {
-            $whr .= " and (timestamp > DATE_SUB(now(), INTERVAL ".$days." DAY))";
+            $whr .= " and (timestamp > DATE_SUB(now(), INTERVAL " . $days . " DAY))";
         }
 
         $fields = "COUNT(*) as totalenquiry";
@@ -151,7 +211,7 @@ class Webmodel extends CI_Model
             $fields = " id, timestamp, mobilenumber, country_code, name ";
         }
 
-        $sql = "SELECT ".$fields." FROM {$botname}". $whr;
+        $sql = "SELECT " . $fields . " FROM {$botname}" . $whr;
 
         $result = $this->db->query($sql);
         $res = $result->result();
@@ -168,20 +228,22 @@ class Webmodel extends CI_Model
 
     public function industryClasification($days)
     {
-        $inputArray = ["Real Estate & Building Services",
-    "ECommerce",
-    "Manufacturing",
-    "IT & Telecommunication",
-    "Educational Institutions",
-    "Banking & Financial Sectors",
-    "Agriculture",
-    "Retail Shops",
-    "Restaurants & Hospitality",
-    "Travel & Tourism"];
+        $inputArray = [
+            "Real Estate & Building Services",
+            "ECommerce",
+            "Manufacturing",
+            "IT & Telecommunication",
+            "Educational Institutions",
+            "Banking & Financial Sectors",
+            "Agriculture",
+            "Retail Shops",
+            "Restaurants & Hospitality",
+            "Travel & Tourism"
+        ];
 
         $res = [];
 
-        for ($i=0; $i<count($inputArray); $i++) {
+        for ($i = 0; $i < count($inputArray); $i++) {
             $res[$inputArray[$i]] = $this->getUserCountByMessage('industry', $inputArray[$i], $days);
         }
         return $res;
@@ -189,13 +251,15 @@ class Webmodel extends CI_Model
 
     public function businessType($days)
     {
-        $inputArray = ["B2C",
-    "B2B",
-    "Both"];
+        $inputArray = [
+            "B2C",
+            "B2B",
+            "Both"
+        ];
 
         $res = [];
 
-        for ($i=0; $i<count($inputArray); $i++) {
+        for ($i = 0; $i < count($inputArray); $i++) {
             $res[$inputArray[$i]] = $this->getUserCountByMessage('business_type', $inputArray[$i], $days);
         }
         return $res;
@@ -204,20 +268,21 @@ class Webmodel extends CI_Model
     public function ourServices($days)
     {
         $inputArray = [
-        "Digital Marketing",
-        "Lead Generation",
-        "Product Launch",
-        "Dealers or Distributors Appointment",
-        "Distributor Management System (B2B eCom)",
-        "ECommerce Sales",
-        "WhatApp Chatbot (oohoo, Todook is delighted to serve you)",
-        "Search Engine Optimization",
-        "Website Development/Revamp",
-        "ERP & CRM Services"];
+            "Digital Marketing",
+            "Lead Generation",
+            "Product Launch",
+            "Dealers or Distributors Appointment",
+            "Distributor Management System (B2B eCom)",
+            "ECommerce Sales",
+            "WhatApp Chatbot (oohoo, Todook is delighted to serve you)",
+            "Search Engine Optimization",
+            "Website Development/Revamp",
+            "ERP & CRM Services"
+        ];
 
         $res = [];
 
-        for ($i=0; $i<count($inputArray); $i++) {
+        for ($i = 0; $i < count($inputArray); $i++) {
             $res[$inputArray[$i]] = $this->getUserCountByMessage('services', $inputArray[$i], $days);
         }
         return $res;
@@ -226,8 +291,8 @@ class Webmodel extends CI_Model
     public function getUserCountByMessage($fieldname, $message, $days)
     {
         $sql = "select count(distinct mobilenumber) as userCount from whatsappbot.todook_process
-	where $fieldname = ".$this->db->escape($message)."
-	and (timestamp > DATE_SUB(now(), INTERVAL ".$days." DAY))";
+	where $fieldname = " . $this->db->escape($message) . "
+	and (timestamp > DATE_SUB(now(), INTERVAL " . $days . " DAY))";
         $result = $this->db->query($sql);
         $res = $result->result();
         if (count($res) > 0) {

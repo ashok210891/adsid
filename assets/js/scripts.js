@@ -400,7 +400,7 @@
                         language: {
                             search : "",
                             searchPlaceholder: "Type in to Search",
-                            lengthMenu: "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+                            lengthMenu: "<div class='d-flex align-items-center justify-content-end' style='gap: 10px'><span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div></div>",
                             info: "_START_ -_END_ of _TOTAL_",
                             infoEmpty: "No records found",
                             infoFiltered: "( Total _MAX_  )",

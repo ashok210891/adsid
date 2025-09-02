@@ -17,10 +17,11 @@
 </head>
 
 <style>
-.logo-img-lg{
-    max-height: 150px;
-}
+    .logo-img-lg {
+        max-height: 150px;
+    }
 </style>
+
 <body class="nk-body bg-white npc-general pg-auth">
     <div class="preloader" style="display: none;"></div>
     <div class="nk-app-root">
@@ -53,12 +54,27 @@
                                         <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Enter your email address or username" required>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-lg btn-primary btn-block">Sign in</button>
+                                        <button class="btn btn-lg btn-primary btn-block">Get OTP</button>
                                     </div>
                                 </form>
+                                <div id="responseMsg" class="my-3"></div>
+                                <form id="otpForm" style="display: none;">
+                                    <div class="form-group">
+                                        <div class="form-label-group">
+                                            <label class="form-label" for="username">Enter OTP</label>
+                                        </div>
+                                        <input type="text" maxlength="6" class="form-control numeric form-control-lg" id="otp" name="otp" placeholder="" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-lg btn-primary btn-block">Verify OTP</button>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" id="back-to-login" class="btn btn-lg btn-default btn-block">Back to Login</button>
+                                    </div>
+                                </form>
+                                <div id="otpresponseMsg" class="my-3"></div>
                             </div>
                         </div>
-                        <div id="responseMsg"></div>
                     </div>
                 </div>
                 <!-- wrap @e -->
@@ -77,12 +93,10 @@
         $('#loginForm').submit(function(event) {
             event.preventDefault();
             if ($('#loginForm').valid()) {
-                var userName = $("#username").val();
-                var password = $("#password").val();
+                var email = $("#username").val();
                 var req = new Request();
                 req.data = {
-                    "userName": userName,
-                    "password": password,
+                    "email": email,
                 };
                 req.url = "login/checkLogin";
                 RequestHandler(req, showResponse);
@@ -100,6 +114,10 @@
                 $('html, body').animate({
                     scrollTop: '0px'
                 }, 0);
+
+                $("#otp").val('');
+                $("#loginForm").hide();
+                $("#otpForm").fadeIn();
             } else {
                 str = str + '<div class="alert alert-dismissable alert-danger">';
                 str = str + '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>';
@@ -108,12 +126,63 @@
                 $('html, body').animate({
                     scrollTop: '0px'
                 }, 0);
+                setTimeout(function() {
+                    $("#responseMsg").html("");
+                }, 3000);
+                return;
+            }
+        }
+
+        $('#otpForm').submit(function(event) {
+            event.preventDefault();
+            if ($('#otpForm').valid()) {
+                var otp = $("#otp").val();
+                var email = $("#username").val();
+                var req = new Request();
+                req.data = {
+                    "email": email,
+                    "otp": otp,
+                };
+                req.url = "login/checkotp";
+                RequestHandler(req, showResponse1);
+            }
+        });
+
+        function showResponse1(data) {
+            data = JSON.parse(data);
+            var str = '';
+            if (data.isError == false) {
+                str = str + '<div class="alert alert-dismissable alert-success">';
+                str = str + '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>';
+                str = str + '<strong>Success! </strong>' + data.msg + ' </div>';
+                $("#otpresponseMsg").html(str);
+            } else {
+                str = str + '<div class="alert alert-dismissable alert-danger">';
+                str = str + '<button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>';
+                str = str + '<strong>Oops! </strong>' + data.msg + '</div>';
+                $("#otpresponseMsg").html(str);
+                $('html, body').animate({
+                    scrollTop: '0px'
+                }, 0);
+
+                setTimeout(function() {
+                    $("#otpresponseMsg").html("");
+                }, 3000);
                 return;
             }
             setTimeout(function() {
                 location.href = '<?php echo base_url(); ?>';
             }, 1000);
         }
+
+        $("#back-to-login").click(function() {
+            $("#otpresponseMsg").html("");
+            $("#responseMsg").html("");
+            $("#username").val('')
+            $("#otp").val('')
+            $("#otpForm").hide();
+            $("#loginForm").fadeIn();
+        })
     </script>
 </body>
 

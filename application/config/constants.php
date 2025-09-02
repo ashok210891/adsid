@@ -39,3 +39,10 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
+
+define('SUCCESS_REDIRECT', "");
+define('PROJECT_NAME', "Aerospace & Defence Supplier Identification Dashboard");
+define('DOMAIN_NAME', "adsid.in");
+define('ADMIN_SUCCESS_REDIRECT', "admin/users");
+define('FLAG_UPLOADS', "uploads/flags/");
+define('PROFILEPIC_UPLOADS', "uploads/profiles/");

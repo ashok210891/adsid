@@ -1,7 +1,7 @@
 /*Domain Name (Should ends with /)*/
 //var domain = "https://dashboard.todook.io/";
 // var domain = "http://localhost:8888/dashboard/";
-var domain = "http://localhost/codeigniter/todook-dashboard/";
+var domain = "http://localhost/codeigniter/adsid/";
 
 /*Request Function */
 
