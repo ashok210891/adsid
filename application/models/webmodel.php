@@ -100,9 +100,14 @@ class Webmodel extends CI_Model
         }
     }
 
-    public function getCompanies()
+    public function getCompanies($id="")
     {
         $sql = "SELECT * from companies where 1 = 1 ";
+
+        if ($id !== "") {
+            $sql .= " and id=".$id;
+        }
+        
         $result = $this->db->query($sql);
         $res = $result->result();
         return $res;

@@ -12,20 +12,20 @@ class Web extends CI_Controller
 
         $this->load->library('grocery_CRUD');
 
-        $this->output->set_header('Last-Modified:'.gmdate('D, d M Y H:i:s').'GMT');
+        $this->output->set_header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
         $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
         $this->output->set_header('Cache-Control: post-check=0, pre-check=0', false);
         $this->output->set_header('Pragma: no-cache');
 
         if (($this->session->userdata('userid') == null) || ($this->session->userdata('userid') == "")) {
-            redirect(base_url().'login');
+            redirect(base_url() . 'login');
         }
         error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
     }
 
     public function index()
     {
-        redirect(base_url().'dashboard');
+        redirect(base_url() . 'dashboard');
     }
 
     public function dashboard()
@@ -37,28 +37,17 @@ class Web extends CI_Controller
         $this->load->view('footer');
     }
 
-    public function report($report_name)
+    public function company($id)
     {
         try {
-            $botname = $this->session->userdata('botname');
-            $crud = new grocery_CRUD();
-            //$crud->set_theme('bootstrap-v4');
-            $report_display_name = ucwords(str_replace('_', ' ', $report_name));
-            $crud->set_subject($report_display_name);
-            $tablename = $botname . '_' . $report_name;
-            $crud->set_table($tablename);
-            $crud->unset_add();
-            $crud->columns($this->webmodel->getColumns($tablename));
-            $crud->fields($this->webmodel->getColumns($tablename));
-            $crud->edit_fields($this->webmodel->getEditColumns($tablename));
-            $output = (array)$crud->render();
-            $output['report_display_name'] = $report_display_name;
-
-            $this->load->view('header', $output);
-            $this->load->view('crud', $output);
+            $companyData = $this->webmodel->getCompanies($id);
+            $data['company'] = $companyData[0];
+            $data['title'] = $data['company']->company_name;
+            $this->load->view('header', $data);
+            $this->load->view('company_detail');
             $this->load->view('footer');
         } catch (Exception $e) {
-          echo $e->message;
+            echo $e->message;
         }
     }
 
@@ -71,14 +60,14 @@ class Web extends CI_Controller
         $reports = [];
 
         foreach ($bot as $node) {
-          foreach ($node as $k=>$v) {
-            if($k === 'tablename') {
-              $isExist = array_search($v, $reports);
-              if($isExist === FALSE) {
-                array_push($reports, $v);
-              }
+            foreach ($node as $k => $v) {
+                if ($k === 'tablename') {
+                    $isExist = array_search($v, $reports);
+                    if ($isExist === FALSE) {
+                        array_push($reports, $v);
+                    }
+                }
             }
-          }
         }
 
         $data['reports'] = $reports;
@@ -169,7 +158,7 @@ class Web extends CI_Controller
         $this->session->sess_destroy();
         $this->load->helper('cookie');
         delete_cookie('ci_todook');
-        redirect(base_url().'login');
+        redirect(base_url() . 'login');
     }
 
     public function changepassword()
