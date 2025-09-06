@@ -1,3 +1,4 @@
 /application/config/config.php
 /application/config/database.php
 .htaccess
+/assets/js/jquery.ajax.js
