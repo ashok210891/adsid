@@ -22,7 +22,7 @@
                                         <tr class="nk-tb-item nk-tb-head">
                                             <th class="nk-tb-col" style="width: 130px;"><span class="sub-text">Supplier No</span></th>
                                             <th class="nk-tb-col"><span class="sub-text">Company</span></th>
-                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">Components</span></th>
+                                            <th class="nk-tb-col tb-col-lg"><span class="sub-text">city</span></th>
                                             <th class="nk-tb-col tb-col-lg"><span class="sub-text">Capability List</span></th>
                                             <th class="nk-tb-col tb-col-lg" style="width: 280px;">
                                             </th>
@@ -38,22 +38,26 @@
                                                     <span><?php echo (int)$comp->supplier_number; ?></span>
                                                 </td>
                                                 <td class="nk-tb-col">
-                                                    <div class="user-card">
-                                                        <div class="user-avatar bg-dim-primary d-none d-sm-flex <?php if ($comp->company_logo) { echo 'bg-white'; } ?>">
-                                                            <?php if ($comp->company_logo) { ?>
-                                                                <img src="<?php echo base_url(); ?>uploads/logo/<?php echo $comp->company_logo; ?>" />
-                                                            <?php } else { ?>
-                                                                <span><?php echo strtoupper(substr($comp->company_name, 0, 2)); ?></span>
-                                                            <?php } ?>
+                                                    <a href="<?php echo base_url(); ?>company/<?php echo $comp->id; ?>">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-dim-primary d-none d-sm-flex <?php if ($comp->company_logo) {
+                                                                                                                        echo 'bg-white';
+                                                                                                                    } ?>">
+                                                                <?php if ($comp->company_logo) { ?>
+                                                                    <img src="<?php echo base_url(); ?>uploads/logo/<?php echo $comp->company_logo; ?>" />
+                                                                <?php } else { ?>
+                                                                    <span><?php echo strtoupper(substr($comp->company_name, 0, 2)); ?></span>
+                                                                <?php } ?>
+                                                            </div>
+                                                            <div class="user-info">
+                                                                <span class="tb-lead"><?php echo $comp->company_name; ?> <span class="dot dot-success d-md-none ms-1"></span></span>
+                                                                <span><?php echo $comp->company_email; ?></span>
+                                                            </div>
                                                         </div>
-                                                        <div class="user-info">
-                                                            <span class="tb-lead"><?php echo $comp->company_name; ?> <span class="dot dot-success d-md-none ms-1"></span></span>
-                                                            <span><?php echo $comp->email_id; ?></span>
-                                                        </div>
-                                                    </div>
+                                                    </a>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-md">
-                                                    <span><?php echo $comp->components; ?></span>
+                                                    <span><?php echo $comp->city; ?></span>
                                                 </td>
                                                 <td class="nk-tb-col tb-col-lg">
                                                     <span><?php echo $comp->capability_list; ?></span>
