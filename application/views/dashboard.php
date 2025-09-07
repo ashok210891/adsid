@@ -35,12 +35,16 @@
                                         ?>
                                             <tr class="nk-tb-item">
                                                 <td class="nk-tb-col tb-col-md" style="width: 130px;">
-                                                    <span><?php echo $comp->supplier_number; ?></span>
+                                                    <span><?php echo (int)$comp->supplier_number; ?></span>
                                                 </td>
                                                 <td class="nk-tb-col">
                                                     <div class="user-card">
-                                                        <div class="user-avatar bg-dim-primary d-none d-sm-flex">
-                                                            <span><?php echo strtoupper(substr($comp->company_name, 0, 2)); ?></span>
+                                                        <div class="user-avatar bg-dim-primary d-none d-sm-flex <?php if ($comp->company_logo) { echo 'bg-white'; } ?>">
+                                                            <?php if ($comp->company_logo) { ?>
+                                                                <img src="<?php echo base_url(); ?>uploads/logo/<?php echo $comp->company_logo; ?>" />
+                                                            <?php } else { ?>
+                                                                <span><?php echo strtoupper(substr($comp->company_name, 0, 2)); ?></span>
+                                                            <?php } ?>
                                                         </div>
                                                         <div class="user-info">
                                                             <span class="tb-lead"><?php echo $comp->company_name; ?> <span class="dot dot-success d-md-none ms-1"></span></span>
