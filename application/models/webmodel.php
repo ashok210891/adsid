@@ -71,6 +71,13 @@ class Webmodel extends CI_Model
         //echo $this->email->print_debugger();
     }
 
+    public function insertContact($name, $email, $mobileNumber)
+    {
+        $sql = "insert into contact SET name = '" . $name . "', email = '" . $email ."', mobile_number = '" . $mobileNumber . "'";
+        $this->db->query($sql);
+    }
+
+
     public function checkotpmodel($email, $otp)
     {
         $sql = "SELECT * FROM users WHERE email = ? and otp = ?";

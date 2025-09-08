@@ -33,6 +33,8 @@ class Contact extends CI_Controller
             exit;
         }
 
+        $this->webmodel->insertContact($name,$email,$mobileNumber);
+
         $useremailsubject = "ADSID - Contact Form Details";
         $useremailheading = "ADSID - Below are the details we get from contact page";
         $useremailmessage = '<strong>Name</strong>: ' . $name . '<br>';
