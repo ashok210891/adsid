@@ -261,6 +261,14 @@
                                                 </div>
                                             </div>
                                         </div><!-- .nk-block-head -->
+                                        <div class="nk-block-head nk-block-head-sm">
+                                            <div class="nk-block-head-content">
+                                                <div class="overline-title-alt mb-2 mt-2">Near Term Capability Expansion</div>
+                                                <div class="nk-block-des">
+                                                    <p><?php echo $company->near_term_capability_expansion; ?></p>
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head -->
                                     </div>
 
                                     <div class="nk-block">
