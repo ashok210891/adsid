@@ -310,3 +310,9 @@
         </div>
     </div>
 </div>
+
+<script src="<?php echo base_url(); ?>assets/js/bundle.js?ver=1.6.0"></script>
+<script src="<?php echo base_url(); ?>assets/js/scripts.js?ver=1.6.0"></script>
+<script src="<?php echo base_url(); ?>/assets/js/libs/datatable-btns.js?ver=3.3.0"></script>
+<script src="<?php echo base_url(); ?>assets/js/jquery.blockUI.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/jquery.ajax.js"></script>
