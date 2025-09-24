@@ -67,4 +67,13 @@ class Login extends CI_Controller
 		}
 		echo json_encode($data);
 	}
+
+	public function testemail()
+	{
+		$useremailsubject = "ADSID - Test";
+        $useremailheading = "ADSID - Test";
+        $useremailmessage = 'Test email';
+
+        $this->webmodel->sendemailtouserModel("kashokarun@gmail.com", $useremailsubject, $useremailheading, $useremailmessage, true);
+	}
 }

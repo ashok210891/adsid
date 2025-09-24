@@ -57,7 +57,7 @@ class Webmodel extends CI_Model
         return $resArr;
     }
 
-    public function sendemailtouserModel($email, $useremailsubject, $useremailheading, $useremailmessage, $tempview = "")
+    public function sendemailtouserModel($email, $useremailsubject, $useremailheading, $useremailmessage, $debug = false)
     {
         $from = $this->config->item('admin_email_id');
         $fromname = $this->config->item('admin_name');
@@ -68,7 +68,9 @@ class Webmodel extends CI_Model
         $messagearr["email"] = $email;
         $msg = $this->load->view('email/useremail', $messagearr, true);
         $this->smtpemail->send($from, $fromname, $email, $useremailsubject, $msg);
-        //echo $this->email->print_debugger();
+        if ($debug) {
+            echo $this->email->print_debugger();
+        }
     }
 
     public function insertContact($name, $email, $mobileNumber)
