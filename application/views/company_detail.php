@@ -273,7 +273,7 @@
 
                                     <div class="nk-block">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="nk-block">
                                                     <div class="overline-title-alt mb-2 mt-2">Register Under MSME</div>
                                                     <div class="nk-tb-list nk-tb-ulist is-compact">
@@ -286,11 +286,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="nk-block">
                                                     <div class="overline-title-alt mb-2 mt-2">Working with Indian DPSU's</div>
                                                     <div class="nk-tb-list nk-tb-ulist is-compact">
                                                         <?php if ($company->working_with_indian_dpsu === 'Yes') {
+                                                            echo '<span class="badge badge-success">Yes</span>';
+                                                        } else {
+                                                            echo '<span class="badge badge-danger">No</span>';
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="nk-block">
+                                                    <div class="overline-title-alt mb-2 mt-2">Aerospace & Defense Industry</div>
+                                                    <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                        <?php if ($company->aerospace_defense_industry === 'Yes') {
                                                             echo '<span class="badge badge-success">Yes</span>';
                                                         } else {
                                                             echo '<span class="badge badge-danger">No</span>';
