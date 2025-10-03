@@ -109,6 +109,9 @@
                                     </div><!-- .card-inner -->
                                 </div>
                             </div>
+                            <?php
+                            if($company->video_url && $company->video_url !== "") {
+                            ?>
                             <div class="card card-bordered">
                                 <div class="card-inner-group">
                                     <div class="card-inner">
@@ -122,6 +125,7 @@
                                     </div><!-- .card-inner -->
                                 </div>
                             </div>
+                            <?php } ?>
                         </div><!-- .col -->
                         <div class="col-lg-8 col-xl-8 col-xxl-9">
                             <div class="card card-bordered">
