@@ -112,7 +112,7 @@ class Webmodel extends CI_Model
 
     public function getCompanies($id="")
     {
-        $sql = "SELECT * from companies where id <> ".$this->session->userdata('company_id');
+        $sql = "SELECT * from companies where id != ".$this->session->userdata('company_id');
 
         if ($id !== "") {
             $sql .= " and id=".$id;
@@ -151,7 +151,7 @@ class Webmodel extends CI_Model
 
     public function getUserDetails($userId = '')
     {
-        $sql = "SELECT * FROM users WHERE status <> 'inactive'";
+        $sql = "SELECT * FROM users WHERE status != 'inactive'";
         if ($userId > 0) {
             $sql .= " AND userid = $userId";
         }
