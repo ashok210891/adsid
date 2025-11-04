@@ -22,7 +22,7 @@ class Webmodel extends CI_Model
 
     public function checkLogin($userName)
     {
-        $sql = "SELECT * FROM users WHERE email = '" . $userName . "'";
+        $sql = "SELECT * FROM users WHERE status = 'active' and email = '" . $userName . "'";
         $res = $this->db->query($sql);
 
         $otpnumber = random_int(100000, 999999);
@@ -82,7 +82,7 @@ class Webmodel extends CI_Model
 
     public function checkotpmodel($email, $otp)
     {
-        $sql = "SELECT * FROM users WHERE email = ? and otp = ?";
+        $sql = "SELECT * FROM users WHERE status = 'active' and email = ? and otp = ?";
         $tempresult = $this->db->query($sql, [$email, $otp]);
         $user = $tempresult->result();
         $userCount = count($user);
@@ -112,7 +112,7 @@ class Webmodel extends CI_Model
 
     public function getCompanies($id="")
     {
-        $sql = "SELECT * from companies where 1=1";
+        $sql = "SELECT * from companies where status='active'";
 
         $company_id = $this->session->userdata('company_id');
         if ((int)$company_id > 0) {
