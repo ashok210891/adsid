@@ -112,8 +112,12 @@ class Webmodel extends CI_Model
 
     public function getCompanies($id="")
     {
-        $sql = "SELECT * from companies where id != ".$this->session->userdata('company_id');
+        $sql = "SELECT * from companies where 1=1";
 
+        $company_id = $this->session->userdata('company_id');
+        if ((int)$company_id > 0) {
+            $sql .= " and id != ".$company_id;
+        }
         if ($id !== "") {
             $sql .= " and id=".$id;
         }
