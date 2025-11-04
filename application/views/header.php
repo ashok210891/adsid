@@ -73,11 +73,13 @@
                                             </a>
                                         </li>
                                     <?php } ?>
+                                    <?php if ($this->session->userdata('company_id') > 0) { ?>
                                     <li class="nk-menu-item">
                                         <a href="<?php echo base_url(); ?>editCompany" class="nk-menu-link dashboard">
                                             <span class="nk-menu-text">EDIT COMPANY</span>
                                         </a>
                                     </li>
+                                    <?php } ?>
                                     <?php if ($this->session->userdata('user_type') == 'buyer') { ?>
                                         <li class="nk-menu-item">
                                             <a href="<?php echo base_url(); ?>emailTemplate" class="nk-menu-link reports">
