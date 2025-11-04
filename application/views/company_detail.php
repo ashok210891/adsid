@@ -252,8 +252,11 @@
                                         <div class="overline-title-alt mb-2 mt-2">Export to countries</div>
                                         <div class="card card-bordered">
                                             <div class="card-inner">
-                                                <div class="between-center flex-wrap flex-md-nowrap g-3">
-                                                    <?php echo $company->export_to_countries; ?>
+                                                <div class="flex-wrap flex-md-nowrap g-3">
+                                                    <?php $cabArr = explode(",", $company->export_to_countries); ?>
+                                                    <?php foreach ($cabArr as $cap) { ?>
+                                                        <span class="badge badge-primary"><?php echo trim($cap); ?></span>
+                                                    <?php } ?>
                                                 </div>
                                             </div><!-- .nk-card-inner -->
                                         </div><!-- .nk-card -->

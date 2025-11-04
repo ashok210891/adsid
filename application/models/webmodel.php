@@ -98,7 +98,8 @@ class Webmodel extends CI_Model
                     'name' => $user->name,
                     'email' => $user->email,
                     'status' => $user->status,
-                    'usertype' => 'user',
+                    'user_type' => $user->user_type,
+                    'company_id' => $user->company_id,
                     'loggedin' => true
                 );
                 $this->session->set_userdata($userData);
@@ -111,7 +112,7 @@ class Webmodel extends CI_Model
 
     public function getCompanies($id="")
     {
-        $sql = "SELECT * from companies where 1 = 1 ";
+        $sql = "SELECT * from companies where id <> ".$this->session->userdata('company_id');
 
         if ($id !== "") {
             $sql .= " and id=".$id;

@@ -66,16 +66,25 @@
                                 </div>
                                 <!-- Menu -->
                                 <ul class="nk-menu nk-menu-main">
-                                    <!-- <li class="nk-menu-item">
-                                    <a href="<?php echo base_url(); ?>dashboard" class="nk-menu-link dashboard">
-                                        <span class="nk-menu-text">DASHBOARD</span>
-                                    </a>
-                                </li>
-                                <li class="nk-menu-item">
-                                    <a href="<?php echo base_url(); ?>reports" class="nk-menu-link reports">
-                                        <span class="nk-menu-text">REPORTS</span>
-                                    </a>
-                                </li> -->
+                                    <?php if ($this->session->userdata('user_type') == 'buyer') { ?>
+                                        <li class="nk-menu-item">
+                                            <a href="<?php echo base_url(); ?>dashboard" class="nk-menu-link dashboard">
+                                                <span class="nk-menu-text">COMPANY LIST</span>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                    <li class="nk-menu-item">
+                                        <a href="<?php echo base_url(); ?>editCompany" class="nk-menu-link dashboard">
+                                            <span class="nk-menu-text">EDIT COMPANY</span>
+                                        </a>
+                                    </li>
+                                    <?php if ($this->session->userdata('user_type') == 'buyer') { ?>
+                                        <li class="nk-menu-item">
+                                            <a href="<?php echo base_url(); ?>emailTemplate" class="nk-menu-link reports">
+                                                <span class="nk-menu-text">Email Templates</span>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
                                 </ul>
                             </div><!-- .nk-header-menu -->
 
