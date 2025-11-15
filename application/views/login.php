@@ -33,6 +33,7 @@
                 <div class="nk-content ">
                     <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
                         <div class="brand-logo pb-4 text-center">
+                            <h6>Aerospace & Defence Supplier Identification Dashboard</h6>
                             <a href="html/index.html" class="logo-link">
                                 <img class="logo-light logo-img logo-img-lg" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo">
                                 <img class="logo-dark logo-img logo-img-lg" src="<?php echo base_url(); ?>assets/images/adsid.jpg" alt="logo-dark">
@@ -73,7 +74,12 @@
                                     </div>
                                 </form>
                                 <div id="otpresponseMsg" class="my-3"></div>
+                                <button type="button" data-toggle="modal" data-target="#registerModal" class="btn btn-lg btn-default btn-block">Don't have an account? Register Now</button>
                             </div>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center text-center mt-3">
+                            <img src="<?php echo base_url(); ?>assets/images/aandd-logo.webp" style="width: 100px; margin: auto" class="aandd-logo">
+                            <h6 class="mt-3">An Initiative by A&D Market Reports</h6>
                         </div>
                     </div>
                 </div>
@@ -83,6 +89,38 @@
         </div>
         <!-- main @e -->
     </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">Register Now</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="name">Company Name</label>
+                            <input type="text" class="form-control form-control-lg" id="company_name" name="company_name" placeholder="Enter your company name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company_email">Company Email</label>
+                            <input type="email" class="form-control form-control-lg" id="company_email" name="company_email" placeholder="Enter your company email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company_number">Company Phone</label>
+                            <input type="text" class="form-control form-control-lg" id="company_number" name="company_number" placeholder="Enter your company phone" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="register-form-btn">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- app-root @e -->
     <!-- JavaScript -->
     <script src="<?php echo base_url(); ?>assets/js/bundle.js?ver=1.6.0"></script>
@@ -183,6 +221,53 @@
             $("#otpForm").hide();
             $("#loginForm").fadeIn();
         })
+
+        $("#register-form-btn").click(function() {
+            $("#registerForm").submit();
+        });
+
+        $("#registerForm").submit(function(event) {
+            event.preventDefault();
+            if ($('#registerForm').valid()) {
+                var company_name = $("#company_name").val();
+                var company_email = $("#company_email").val();
+                var company_number = $("#company_number").val();
+
+                var req = new Request();
+                req.data = {
+                    "company_name": company_name,
+                    "company_email": company_email,
+                    "company_number": company_number,
+                };
+                req.url = "login/registerCompany";
+                RequestHandler(req, showResponse3);
+            }
+        });
+
+        function showResponse3(data) {
+            data = JSON.parse(data);
+            var str = '';
+            if (data.isError == false) {
+                $("#registerModal").modal("hide");
+                if (window.NioApp && typeof NioApp.Toast === 'function') {
+                    NioApp.Toast(data.msg || 'Company registered successfully!. We will contact you soon.', 'success', {
+                        position: 'top-right'
+                    });
+                } else {
+                    alert(data.msg || 'Company registered successfully!. We will contact you soon.');
+                }
+                return;
+            } else {
+                if (window.NioApp && typeof NioApp.Toast === 'function') {
+                    NioApp.Toast(data.msg || 'Error registering company', 'error', {
+                        position: 'top-right'
+                    });
+                } else {
+                    alert(data.msg || 'Error registering company');
+                }
+                return;
+            }
+        }
     </script>
 </body>
 

@@ -225,12 +225,12 @@ class Web extends CI_Controller
             $crud->required_fields('template_name', 'email_subject', 'template_content', 'status');
 
             $crud->display_as('template_name', 'Template Name')
-                 ->display_as('email_subject', 'Email Subject')
-                 ->display_as('template_content', 'Template Content')
-                 ->display_as('file', 'Attachment')
-                 ->display_as('status', 'Status')
-                 ->display_as('created_on', 'Created On')
-                 ->display_as('created_by', 'Created By');
+                ->display_as('email_subject', 'Email Subject')
+                ->display_as('template_content', 'Template Content')
+                ->display_as('file', 'Attachment')
+                ->display_as('status', 'Status')
+                ->display_as('created_on', 'Created On')
+                ->display_as('created_by', 'Created By');
 
             $crud->set_field_upload('file', 'assets/uploads/files');
             $crud->set_field_type('status', 'dropdown', array('active' => 'active', 'inactive' => 'inactive'));
@@ -393,12 +393,12 @@ class Web extends CI_Controller
         // Process tags fields (convert arrays to comma-separated strings)
         $tagsFields = ['capability_list', 'components', 'products', 'recent_project', 'key_projects', 'clients', 'export_to_countries', 'production_capability'];
         $processedTags = array();
-        
+
         foreach ($tagsFields as $field) {
             $tagsData = $this->input->post($field);
             if (is_array($tagsData)) {
                 // Filter out empty values and join with commas
-                $filteredData = array_filter($tagsData, function($value) {
+                $filteredData = array_filter($tagsData, function ($value) {
                     return !empty($value) && trim($value) !== '';
                 });
                 $processedTags[$field] = implode(',', $filteredData);
@@ -455,11 +455,11 @@ class Web extends CI_Controller
                 $update['company_logo'] = $uploadData['file_name'];
             } else {
                 $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'success' => false,
-                    'message' => 'Error updating company logo.'
-                ]));
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'success' => false,
+                        'message' => 'Error updating company logo.'
+                    ]));
             }
         }
 
@@ -486,19 +486,19 @@ class Web extends CI_Controller
     private function extractYouTubeId($url)
     {
         if (empty($url)) return '';
-        
+
         // Extract YouTube ID from various YouTube URL formats
         $patterns = [
             '/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/',
             '/youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})/'
         ];
-        
+
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $url, $matches)) {
                 return $matches[1];
             }
         }
-        
+
         // If no pattern matches, return the original string (might be just an ID)
         return $url;
     }
@@ -508,7 +508,7 @@ class Web extends CI_Controller
         // Get JSON input
         $input = json_decode(file_get_contents('php://input'), true);
         $companyIds = $input['company_ids'] ?? [];
-        
+
         if (empty($companyIds)) {
             $this->output
                 ->set_content_type('application/json')
@@ -518,11 +518,11 @@ class Web extends CI_Controller
                 ]));
             return;
         }
-        
+
         // Get user's email template
         $userId = (int)$this->session->userdata('userid');
         $template = $this->db->get_where('email_templates', array('created_by' => $userId), 1)->row_array();
-        
+
         if (!$template) {
             $this->output
                 ->set_content_type('application/json')
@@ -532,11 +532,11 @@ class Web extends CI_Controller
                 ]));
             return;
         }
-        
+
         // Get selected companies
         $this->db->where_in('id', $companyIds);
         $companies = $this->db->get('companies')->result();
-        
+
         if (empty($companies)) {
             $this->output
                 ->set_content_type('application/json')
@@ -546,27 +546,27 @@ class Web extends CI_Controller
                 ]));
             return;
         }
-        
+
         $sentCount = 0;
         $errors = [];
-        
+
         // Load email library
         $this->load->library('Smtpemail');
-        
+
         foreach ($companies as $company) {
             if (empty($company->company_email)) {
                 $errors[] = "No email address for company: " . $company->company_name;
                 continue;
             }
-            
+
             // Prepare email content
             $subject = $template['email_subject'];
-            $message = 'Hello '.$company->contact_person.',<br><br>';
-            $message .= $template['template_content'].'<br><br>';
+            $message = 'Hello ' . $company->contact_person . ',<br><br>';
+            $message .= $template['template_content'] . '<br><br>';
             $message .= 'Regards,<br>';
-            $message .= $this->session->userdata('first_name').' '.$this->session->userdata('last_name').'<br>';
-            $message .= $this->session->userdata('email').'<br>';
-            
+            $message .= $this->session->userdata('first_name') . ' ' . $this->session->userdata('last_name') . '<br>';
+            $message .= $this->session->userdata('email') . '<br>';
+
             // Prepare attachment if exists
             $attachment = '';
             if (!empty($template['file'])) {
@@ -575,7 +575,7 @@ class Web extends CI_Controller
                     $attachment = '';
                 }
             }
-            
+
             // Send email
             $emailSent = $this->smtpemail->send(
                 $this->config->item('admin_email_id'),
@@ -585,33 +585,60 @@ class Web extends CI_Controller
                 $message,
                 $attachment
             );
-            
+
             if ($emailSent) {
                 $sentCount++;
             } else {
                 $errors[] = "Failed to send email to: " . $company->company_name . " (" . $company->company_email . ")";
             }
         }
-        
+
         // Prepare response
         $response = [
             'success' => $sentCount > 0,
             'sent_count' => $sentCount,
             'total_selected' => count($companies)
         ];
-        
+
         if ($sentCount > 0) {
             $response['message'] = "RFP sent successfully to {$sentCount} companies.";
         } else {
             $response['message'] = "Failed to send RFP to any companies.";
         }
-        
+
         if (!empty($errors)) {
             $response['errors'] = $errors;
         }
-        
+
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($response));
+    }
+
+    public function submitHelpQuestion()
+    {
+        $helpQuestions = $this->input->post('helpQuestions');
+        $otherQuestion = $this->input->post('otherQuestion');
+
+        $useremailsubject = "ADSID - Help Question";
+        $useremailheading = "ADSID - Help Question";
+        $useremailmessage = 'Help Questions: ' . $helpQuestions;
+        if ($otherQuestion) {
+            $useremailmessage .= '<br>Other Question: ' . $otherQuestion;
+        }
+        
+        $useremailmessage .= '<br>Email: ' . $this->session->userdata('email');
+        $useremailmessage .= '<br>Name: ' . $this->session->userdata('name');
+        $useremailmessage .= '<br>User Status: ' . $this->session->userdata('status');
+        $useremailmessage .= '<br>User Type: ' . $this->session->userdata('user_type');
+        $useremailmessage .= '<br>Company ID: ' . $this->session->userdata('company_id');
+
+
+        $this->webmodel->sendemailtouserModel("kashokarun@gmail.com", $useremailsubject, $useremailheading, $useremailmessage);
+
+        $data["isError"] = false;
+        $data["msg"] = "Help question submitted successfully. We will contact you soon!";
+        echo json_encode($data);
+        return;
     }
 }

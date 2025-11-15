@@ -68,6 +68,24 @@ class Login extends CI_Controller
 		echo json_encode($data);
 	}
 
+	public function registerCompany()
+	{
+		$company_name = $this->input->post('company_name');
+		$company_email = $this->input->post('company_email');
+		$company_number = $this->input->post('company_number');
+		
+		$useremailsubject = "ADSID - Company Registration";
+        $useremailheading = "ADSID - Company Registration";
+        $useremailmessage = 'Company Name: ' . $company_name . '<br>Company Email: ' . $company_email . '<br>Company Number: ' . $company_number;
+
+        $this->webmodel->sendemailtouserModel("contact@adsid.in", $useremailsubject, $useremailheading, $useremailmessage);
+
+		$data["isError"] = false;
+		$data["msg"] = "Company registered successfully!. We will contact you soon.";
+		echo json_encode($data);
+		return;
+	}
+
 	public function testemail()
 	{
 		$useremailsubject = "ADSID - Test";

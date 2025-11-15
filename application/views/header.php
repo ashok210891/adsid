@@ -32,9 +32,72 @@
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
     <div class="preloader" style="display: none;"></div>
+
+
     <div class="nk-app-root">
         <!-- main @s -->
         <div class="nk-main ">
+
+
+            <!-- Help Modal -->
+            <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center">Help & Support</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="helpForm">
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" value="Market Sizing / Market Opportunity" id="market-sizing" name="help-question" required>
+                                        <label class="custom-control-label" for="market-sizing">Market Sizing / Market Opportunity</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" value="Looking for Partners/ Joint Ventures" id="partners-joint-ventures" name="help-question" required>
+                                        <label class="custom-control-label" for="partners-joint-ventures">Looking for Partners/ Joint Ventures</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" value="Need help in Equity" id="equity" name="help-question" required>
+                                        <label class="custom-control-label" for="equity">Need help in Equity</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" value="Interested in Defense Decision Dashboard" id="defense-decision-dashboard" name="help-question" required>
+                                        <label class="custom-control-label" for="defense-decision-dashboard">Interested in Defense Decision Dashboard</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="foreign-oems" value="Connect to Foreign OEM's" name="help-question" required>
+                                        <label class="custom-control-label" for="foreign-oems">Connect to Foreign OEM's</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" id="other-question" name="help-question" required value="other-question">
+                                        <label class="custom-control-label" for="other-question">Others</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="form-group" id="other-question-group" style="display: none;">
+                                        <textarea class="form-control" id="other-question-text" name="other-question-text" placeholder="Enter your question"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="help-form-btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- wrap @s -->
             <div class="nk-wrap ">
@@ -74,11 +137,11 @@
                                         </li>
                                     <?php } ?>
                                     <?php if ($this->session->userdata('company_id') > 0) { ?>
-                                    <li class="nk-menu-item">
-                                        <a href="<?php echo base_url(); ?>editCompany" class="nk-menu-link dashboard">
-                                            <span class="nk-menu-text">EDIT COMPANY</span>
-                                        </a>
-                                    </li>
+                                        <li class="nk-menu-item">
+                                            <a href="<?php echo base_url(); ?>editCompany" class="nk-menu-link dashboard">
+                                                <span class="nk-menu-text">EDIT COMPANY</span>
+                                            </a>
+                                        </li>
                                     <?php } ?>
                                     <?php if ($this->session->userdata('user_type') == 'buyer') { ?>
                                         <li class="nk-menu-item">
@@ -92,6 +155,7 @@
 
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#helpModal"><em class="icon ni ni-help-circle"></em> Help</button>
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             <div class="user-toggle">
