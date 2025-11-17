@@ -60,12 +60,21 @@
                                         <label class="custom-control-label" for="partners-joint-ventures">Looking for Partners/ Joint Ventures</label>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" value="Need help in Equity" id="equity" name="help-question" required>
-                                        <label class="custom-control-label" for="equity">Need help in Equity</label>
+                                <?php if ($this->session->userdata('user_type') == 'buyer') { ?>
+                                    <div class="form-group mb-3">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" value="Identify / Audit suppliers" id="equity" name="help-question" required>
+                                            <label class="custom-control-label" for="equity">Identify / Audit suppliers</label>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php } else { ?>
+                                    <div class="form-group mb-3">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" value="Need help in Equity" id="equity" name="help-question" required>
+                                            <label class="custom-control-label" for="equity">Need help in Equity</label>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 <div class="form-group mb-3">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" class="custom-control-input" value="Interested in Defense Decision Dashboard" id="defense-decision-dashboard" name="help-question" required>
@@ -155,7 +164,7 @@
 
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#helpModal"><em class="icon ni ni-help-circle"></em> Help</button>
+                                    <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#helpModal"><i class="icon ni ni-help mr-1"></i>Help</button>
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                             <div class="user-toggle">
