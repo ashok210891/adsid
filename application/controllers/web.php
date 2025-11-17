@@ -634,7 +634,7 @@ class Web extends CI_Controller
         $useremailmessage .= '<br>Company ID: ' . $this->session->userdata('company_id');
 
 
-        $this->webmodel->sendemailtouserModel("kashokarun@gmail.com", $useremailsubject, $useremailheading, $useremailmessage);
+        $this->webmodel->sendemailtouserModel("contact@adsid.in", $useremailsubject, $useremailheading, $useremailmessage);
 
         $data["isError"] = false;
         $data["msg"] = "Help question submitted successfully. We will contact you soon!";
