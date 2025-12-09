@@ -158,6 +158,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new capabilities by typing and pressing comma. To remove a capability, click on the x icon next to the capability.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,6 +179,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new components by typing and pressing comma. To remove a component, click on the x icon next to the component.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -194,6 +200,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new products by typing and pressing comma. To remove a product, click on the x icon next to the product.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -212,6 +221,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new production capabilities by typing and pressing comma. To remove a production capability, click on the x icon next to the production capability.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -230,6 +242,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new recent projects by typing and pressing comma. To remove a recent project, click on the x icon next to the recent project.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -248,6 +263,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new key projects by typing and pressing comma. To remove a key project, click on the x icon next to the key project.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,6 +284,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new clients by typing and pressing comma. To remove a client, click on the x icon next to the client.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -284,6 +305,9 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                        <div class="form-note mt-1">
+                                                            <span class="text-muted">Add new export to countries by typing and pressing comma. To remove an export to country, click on the x icon next to the export to country.</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
