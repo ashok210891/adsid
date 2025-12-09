@@ -29,7 +29,7 @@
                                                                             echo 'bg-primary';
                                                                         } ?>">
                                                 <?php if ($company->company_logo) { ?>
-                                                    <img src="<?php echo base_url(); ?>uploads/logo/<?php echo $company->company_logo; ?>" />
+                                                    <img src="<?php echo base_url(); ?>assets/uploads/companies/<?php echo $company->company_logo; ?>" />
                                                 <?php } else { ?>
                                                     <span><?php echo strtoupper(substr($company->company_name, 0, 2)); ?></span>
                                                 <?php } ?>

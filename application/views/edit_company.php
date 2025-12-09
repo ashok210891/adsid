@@ -420,9 +420,9 @@
                 // Initialize Select2 with tags functionality
                 $input.select2({
                     tags: true,
-                    tokenSeparators: [',', ' '],
+                    tokenSeparators: [','],
                     placeholder: $input.data('placeholder') || 'Enter values separated by commas',
-                    allowClear: false,
+                    allowClear: true,
                     width: '100%',
                     maximumSelectionLength: 20,
                     closeOnSelect: false,
