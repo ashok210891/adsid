@@ -79,6 +79,12 @@ class Webmodel extends CI_Model
         $this->db->query($sql);
     }
 
+    public function getLatestNews()
+    {
+        $sql = "SELECT * FROM recent_news WHERE status != 'inactive' order by id desc";
+        $res = $this->db->query($sql);
+        return $res->result();
+    }
 
     public function checkotpmodel($email, $otp)
     {

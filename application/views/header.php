@@ -108,6 +108,44 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="newsModal" tabindex="-1" aria-labelledby="newsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 90vw;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center">Recent News</h5>
+                            <i class="icon ni ni-cross-circle" style="font-size: 20px; cursor: pointer; color: red;" data-dismiss="modal"></i>
+                        </div>
+                        <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                            <div class="accordion" id="accordion">
+                                <?php
+                                $recent_news = $this->webmodel->getLatestNews();
+                                foreach ($recent_news as $news) {
+                                ?>
+                                    <div class="accordion-item">
+                                        <a href="#" class="accordion-head collapsed" data-toggle="collapse" data-target="#accordion-item-<?php echo $news->id; ?>">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h6 class="title"><?php echo $news->news_title; ?></h6>
+                                                <div class="" style="width: 140px;">
+                                                    <span class="date"><?php echo $news->news_date; ?></span>
+                                                    <span class="accordion-icon"></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="accordion-body collapse" id="accordion-item-<?php echo $news->id; ?>" data-parent="#accordion">
+                                            <div class="accordion-inner">
+                                                <p style="white-space: pre-wrap;"><?php echo html_entity_decode($news->news_description); ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- wrap @s -->
             <div class="nk-wrap ">
                 <!-- main header @s -->
@@ -164,6 +202,7 @@
 
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
+                                    <button class="btn btn-primary btn-sm mr-2" data-toggle="modal" data-target="#newsModal">Recent News</button>
                                     <button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#helpModal"><i class="icon ni ni-help mr-1"></i>Help</button>
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
