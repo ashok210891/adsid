@@ -31,6 +31,20 @@
                 $('#other-question-group').hide();
             }
         });
+
+        if (localStorage.getItem('userConsent') == 'true') {
+            $("#userConsentModal").modal({"backdrop": "static", "keyboard": false}).modal("show");
+        }
+
+        $('#user-consent-decline-btn').click(function() {
+            localStorage.removeItem('userConsent');
+            location.href = '<?php echo base_url(); ?>logout';
+        });
+
+        $('#user-consent-accept-btn').click(function() {
+            localStorage.removeItem('userConsent');
+            $("#userConsentModal").modal("hide");
+        });
     });
 
     $('#help-form-btn').click(function() {

@@ -209,6 +209,7 @@
                 return;
             }
             setTimeout(function() {
+                localStorage.setItem('userConsent', 'true');
                 location.href = '<?php echo base_url(); ?>';
             }, 1000);
         }
