@@ -42,6 +42,12 @@
         });
 
         $('#user-consent-accept-btn').click(function() {
+            if (!$('#user-consent-checkbox').is(':checked')) {
+                NioApp.Toast('Please check the box to subscribe to the free News Letter', 'error', {
+                    position: 'top-right'
+                });
+                return;
+            }
             localStorage.removeItem('userConsent');
             $("#userConsentModal").modal("hide");
         });

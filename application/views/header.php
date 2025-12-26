@@ -334,6 +334,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" id="user-consent-checkbox">
+                                    Subscribe to free News Letter
+                                </label>
+                            </div>
                             <button type="button" class="btn btn-danger" id="user-consent-decline-btn">Decline</button>
                             <button type="button" class="btn btn-primary" id="user-consent-accept-btn">Accept</button>
                         </div>
