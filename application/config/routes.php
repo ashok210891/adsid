@@ -45,7 +45,7 @@ $route['404_override'] = '';*/
 $default_controller = "web";
 $language_alias = array('en');
 // exceptions
-$controller_exceptions = array('login','admin','test','api','contact');
+$controller_exceptions = array('login','admin','test','api','contact','cron');
 // route
 $route['default_controller'] = $default_controller;
 $route["^(".implode('|', $language_alias).")/(".implode('|', $controller_exceptions).")(.*)"] = '$2';

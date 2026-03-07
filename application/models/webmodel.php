@@ -36,6 +36,7 @@ class Webmodel extends CI_Model
                     $updatarr = array(
                         'user_last_activity' => date('Y-m-d h:i:s'),
                         'otp' => $otpnumber,
+                        'inactive_reminder_sent_at' => null,
                     );
                     $wherearr = array(
                         'id' => $row->id,
@@ -71,6 +72,31 @@ class Webmodel extends CI_Model
         if ($debug) {
             echo $this->email->print_debugger();
         }
+    }
+
+    /**
+     * Get users inactive for 10+ days who should receive reminder email.
+     * Only returns users who never got a reminder or were last reminded 30+ days ago.
+     */
+    public function getInactiveUsersForReminder($inactiveDays = 10, $reminderCooldownDays = 30)
+    {
+        $sql = "SELECT id, email, name, user_last_activity
+                FROM users
+                WHERE status = 'active'
+                AND email != ''
+                AND (user_last_activity IS NULL OR user_last_activity < DATE_SUB(NOW(), INTERVAL ? DAY))
+                AND (inactive_reminder_sent_at IS NULL OR inactive_reminder_sent_at < DATE_SUB(NOW(), INTERVAL ? DAY))";
+        $res = $this->db->query($sql, array((int) $inactiveDays, (int) $reminderCooldownDays));
+        return $res->result();
+    }
+
+    /**
+     * Update user's inactive_reminder_sent_at after sending reminder email.
+     */
+    public function updateInactiveReminderSentAt($userId)
+    {
+        $this->db->where('id', (int) $userId);
+        return $this->db->update('users', array('inactive_reminder_sent_at' => date('Y-m-d H:i:s')));
     }
 
     public function insertContact($name, $email, $mobileNumber)
