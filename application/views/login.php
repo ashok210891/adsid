@@ -82,7 +82,7 @@
                         </div>
                         <div class="d-flex flex-column justify-content-center text-center mt-3">
                             <img src="<?php echo base_url(); ?>assets/images/aandd-logo.webp" style="width: 100px; margin: auto" class="aandd-logo">
-                            <h6 class="mt-3">An Initiative by A&D Market Reports</h6>
+                            <h6 class="mt-3">An Initiative Owned by A&D Market Reports</h6>
                         </div>
                     </div>
                 </div>
