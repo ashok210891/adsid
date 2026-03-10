@@ -28,39 +28,50 @@ class Cron extends CI_Controller
         $inactiveDays = 10;
         $cooldownDays = 10;
 
-        $users = $this->webmodel->getInactiveUsersForReminder($inactiveDays, $cooldownDays);
-        $sent = 0;
+        $sent  = 0;
         $errors = 0;
 
-        foreach ($users as $user) {
-            $name = !empty($user->name) ? $user->name : 'User';
+        // 1) First‑time users (never logged in)
+        $neverLoggedUsers = $this->webmodel->getNeverLoggedInUsersForReminder($cooldownDays);
+        foreach ($neverLoggedUsers as $user) {
+            $name    = !empty($user->name) ? $user->name : 'User';
+            $subject = 'ADSID - First Login Reminder';
+            $heading = 'ADSID - First Login Reminder';
 
-            if ($user->otp === 0 || $user->otp === null) {
-                // User has never logged in
-                $subject = 'ADSID - First Login Reminder';
-                $heading = 'ADSID - First Login Reminder';
+            $message = $this->load->view(
+                'email/never_login_reminder',
+                array(
+                    'name' => $name,
+                ),
+                true
+            );
 
-                $message = $this->load->view(
-                    'email/never_login_reminder',
-                    array(
-                        'name' => $name,
-                    ),
-                    true
-                );
-            } else {
-                // User logged in before but inactive for N days
-                $subject = 'ADSID - Inactive Account Reminder';
-                $heading = 'ADSID - Inactive Account Reminder';
-
-                $message = $this->load->view(
-                    'email/inactive_reminder',
-                    array(
-                        'name' => $name,
-                        'inactiveDays' => $inactiveDays,
-                    ),
-                    true
-                );
+            try {
+                $this->webmodel->sendemailtouserModel($user->email, $subject, $heading, $message);
+                $this->webmodel->updateInactiveReminderSentAt($user->id);
+                $sent++;
+                echo "Sent first-login reminder to: " . $user->email . "\n";
+            } catch (Exception $e) {
+                $errors++;
+                echo "Error sending first-login reminder to " . $user->email . ": " . $e->getMessage() . "\n";
             }
+        }
+
+        // 2) Users who have logged in before but are inactive for N+ days
+        $inactiveUsers = $this->webmodel->getInactiveUsersForReminder($inactiveDays, $cooldownDays);
+        foreach ($inactiveUsers as $user) {
+            $name    = !empty($user->name) ? $user->name : 'User';
+            $subject = 'ADSID - Inactive Account Reminder';
+            $heading = 'ADSID - Inactive Account Reminder';
+
+            $message = $this->load->view(
+                'email/inactive_reminder',
+                array(
+                    'name' => $name,
+                    'inactiveDays' => $inactiveDays,
+                ),
+                true
+            );
 
             try {
                 $this->webmodel->sendemailtouserModel($user->email, $subject, $heading, $message);
@@ -69,7 +80,7 @@ class Cron extends CI_Controller
                 echo "Sent inactive reminder to: " . $user->email . "\n";
             } catch (Exception $e) {
                 $errors++;
-                echo "Error sending to " . $user->email . ": " . $e->getMessage() . "\n";
+                echo "Error sending inactive reminder to " . $user->email . ": " . $e->getMessage() . "\n";
             }
         }
 

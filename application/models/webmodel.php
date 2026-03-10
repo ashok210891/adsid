@@ -75,8 +75,8 @@ class Webmodel extends CI_Model
     }
 
     /**
-     * Get users inactive for 10+ days who should receive reminder email.
-     * Only returns users who never got a reminder or were last reminded 30+ days ago.
+     * Get users inactive for N+ days who have logged in at least once.
+     * Excludes first‑time (never logged in) users by requiring otp != 0 and otp IS NOT NULL.
      */
     public function getInactiveUsersForReminder($inactiveDays = 10, $reminderCooldownDays = 30)
     {
@@ -84,9 +84,27 @@ class Webmodel extends CI_Model
                 FROM users
                 WHERE status = 'active'
                 AND email != ''
-                AND (user_last_activity IS NULL OR user_last_activity < DATE_SUB(NOW(), INTERVAL ? DAY))
+                AND otp IS NOT NULL
+                AND otp != 0
+                AND user_last_activity < DATE_SUB(NOW(), INTERVAL ? DAY)
                 AND (inactive_reminder_sent_at IS NULL OR inactive_reminder_sent_at < DATE_SUB(NOW(), INTERVAL ? DAY))";
         $res = $this->db->query($sql, array((int) $inactiveDays, (int) $reminderCooldownDays));
+        return $res->result();
+    }
+
+    /**
+     * Get users who have never logged in (first‑time users).
+     * otp is NULL or 0 and no reminder sent yet (or outside cooldown).
+     */
+    public function getNeverLoggedInUsersForReminder($reminderCooldownDays = 30)
+    {
+        $sql = "SELECT id, email, name, user_last_activity, otp
+                FROM users
+                WHERE status = 'active'
+                AND email != ''
+                AND (otp IS NULL OR otp = 0)
+                AND (inactive_reminder_sent_at IS NULL OR inactive_reminder_sent_at < DATE_SUB(NOW(), INTERVAL ? DAY))";
+        $res = $this->db->query($sql, array((int) $reminderCooldownDays));
         return $res->result();
     }
 
