@@ -80,7 +80,7 @@ class Webmodel extends CI_Model
      */
     public function getInactiveUsersForReminder($inactiveDays = 10, $reminderCooldownDays = 30)
     {
-        $sql = "SELECT id, email, name, user_last_activity
+        $sql = "SELECT id, email, name, user_last_activity, otp
                 FROM users
                 WHERE status = 'active'
                 AND email != ''

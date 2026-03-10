@@ -35,7 +35,7 @@ class Cron extends CI_Controller
         foreach ($users as $user) {
             $name = !empty($user->name) ? $user->name : 'User';
 
-            if (empty($user->user_last_activity)) {
+            if ($user->otp === 0 || $user->otp === null) {
                 // User has never logged in
                 $subject = 'ADSID - First Login Reminder';
                 $heading = 'ADSID - First Login Reminder';
