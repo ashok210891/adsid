@@ -26,7 +26,7 @@ class Cron extends CI_Controller
     public function send_inactive_reminders()
     {
         $inactiveDays = 10;
-        $cooldownDays = 30;
+        $cooldownDays = 10;
 
         $users = $this->webmodel->getInactiveUsersForReminder($inactiveDays, $cooldownDays);
         $sent = 0;
@@ -34,13 +34,33 @@ class Cron extends CI_Controller
 
         foreach ($users as $user) {
             $name = !empty($user->name) ? $user->name : 'User';
-            $subject = 'ADSID - We miss you!';
-            $heading = 'ADSID - You haven’t logged in for a while';
-            $message = 'Hi ' . htmlspecialchars($name) . ',<br><br>';
-            $message .= 'You have not logged into your ADSID account for more than ' . $inactiveDays . ' days.<br><br>';
-            $message .= 'We’d love to see you back. Log in anytime to access your account.<br><br>';
-            $message .= '<a href="' . base_url() . '">Log in to ADSID</a><br><br>';
-            $message .= '- ADSID Team';
+
+            if (empty($user->user_last_activity)) {
+                // User has never logged in
+                $subject = 'ADSID - First Login Reminder';
+                $heading = 'ADSID - First Login Reminder';
+
+                $message = $this->load->view(
+                    'email/never_login_reminder',
+                    array(
+                        'name' => $name,
+                    ),
+                    true
+                );
+            } else {
+                // User logged in before but inactive for N days
+                $subject = 'ADSID - Inactive Account Reminder';
+                $heading = 'ADSID - Inactive Account Reminder';
+
+                $message = $this->load->view(
+                    'email/inactive_reminder',
+                    array(
+                        'name' => $name,
+                        'inactiveDays' => $inactiveDays,
+                    ),
+                    true
+                );
+            }
 
             try {
                 $this->webmodel->sendemailtouserModel($user->email, $subject, $heading, $message);
