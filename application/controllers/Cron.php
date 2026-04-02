@@ -31,7 +31,6 @@ class Cron extends CI_Controller
      */
     public function send_inactive_reminders()
     {
-        echo 'hi';exit;
         $inactiveDays = 10;
         $cooldownDays = 10;
 

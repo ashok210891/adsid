@@ -78,6 +78,7 @@
                                     <p class="mb-0">Don't have an account?</p>
                                     <button type="button" data-toggle="modal" data-target="#registerModal" class="btn btn-lg btn-default" style="cursor: pointer; color: #204E9A; text-decoration: underline; font-size: 16px;">Register Now</button>
                                 </div>
+                                <div class="text-center"><p>First time users click on the register now</p></div>
                             </div>
                         </div>
                         <div class="d-flex flex-column justify-content-center text-center mt-3">
