@@ -108,6 +108,10 @@
                             <input type="text" class="form-control form-control-lg" id="company_name" name="company_name" placeholder="Enter your company name" required>
                         </div>
                         <div class="form-group">
+                            <label for="contact_person">Contact Person Name</label>
+                            <input type="text" class="form-control form-control-lg" id="contact_person" name="contact_person" placeholder="Enter contact person name" required>
+                        </div>
+                        <div class="form-group">
                             <label for="company_email">Company Email</label>
                             <input type="email" class="form-control form-control-lg" id="company_email" name="company_email" placeholder="Enter your company email" required>
                         </div>
@@ -235,12 +239,14 @@
             event.preventDefault();
             if ($('#registerForm').valid()) {
                 var company_name = $("#company_name").val();
+                var contact_person = $("#contact_person").val();
                 var company_email = $("#company_email").val();
                 var company_number = $("#company_number").val();
 
                 var req = new Request();
                 req.data = {
                     "company_name": company_name,
+                    "contact_person": contact_person,
                     "company_email": company_email,
                     "company_number": company_number,
                 };
